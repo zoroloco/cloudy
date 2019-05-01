@@ -1,8 +1,9 @@
 let pathUtil = require('path'),
     _        = require('underscore'),
     log      = require(pathUtil.join(__dirname,'./logger.js')),
-    Server   = require(pathUtil.join(__dirname,'./server.js'));
-const conf   = require(pathUtil.join(__dirname,'./conf/conf.json'));
+    Server   = require(pathUtil.join(__dirname,'./server.js')),
+    FileController = require(pathUtil.join(__dirname,'./controllers/file.controller'));
+const conf = require(pathUtil.join(__dirname,'./conf/conf.json'));
 
 function App(){
     let self = this;
@@ -13,7 +14,11 @@ function App(){
 
     log.info('Starting '+process.title+' version:'+process.version);
 
-    self._server = new Server().listen();
+    FileController.initFileSystem().then(()=>{
+        self._server = new Server().listen();
+    },(err)=>{
+        log.error(err);
+    });
 
     try{
         if(!_.isEmpty(conf)){

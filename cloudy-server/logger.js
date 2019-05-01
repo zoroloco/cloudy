@@ -66,9 +66,8 @@ var self = module.exports = {
                     fs.mkdirSync(conf.logger.dir);
                 }
                 catch(e) {
-                    if ( e.code !== 'EEXIST' ){
-                        log.error('Log directory already exists. '+conf.logger.dir);
-                        throw e;
+                    if ( e.code === 'EEXIST' ){
+                        log.warn('Log directory already exists. '+conf.logger.dir);
                     }
                 }
 
