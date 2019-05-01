@@ -10,3 +10,4 @@ The server will be a node js app that listens for incoming data and stores it at
 Whenever you want to snap a picture on your mobile device that you want to keep, then you will use this mobile app and the picture will be synced to your home cloud. 
 
 Lets see if I actually finish this project.
+

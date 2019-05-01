@@ -1,0 +1,11 @@
+{
+  "hostname" : "localhost",
+
+  "sslPort"     : 7999,
+
+  "logger" : {
+    "enabled" : true,
+    "dir"     : "logs",
+    "debug": true
+  }
+}
