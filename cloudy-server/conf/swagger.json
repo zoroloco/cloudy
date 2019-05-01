@@ -1,0 +1,49 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Cloudy Restful API",
+    "description": "This is the swagger restful API documentation for the Cloudy server application.",
+    "version": ""
+  },
+  "produces": ["application/json"],
+  "host": "localhost",
+  "basePath": "/",
+
+  "paths": {
+
+    "/postFile": {
+      "post": {
+        "x-swagger-router-controller": "middleware-name1",
+        "operationId": "swagTest",
+        "tags": ["Cloudy API"],
+        "description": "Receives a file and saves it to the filesystem.",
+        "parameters": [ {
+          "in": "body",
+          "name": "body",
+          "description": "",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/PostFileRequest"
+          }
+        }],
+        "responses": {
+          "default":{
+            "description": "200 OK"
+          }
+        }
+      }
+    }
+  },
+
+  "definitions":{
+    "PostFileRequest":{
+      "properties":{
+        "data":{ "type": "array",
+          "items":{
+            "type":"string"
+          }
+        }
+      }
+    }
+  }
+}

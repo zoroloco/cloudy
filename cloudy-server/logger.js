@@ -1,12 +1,10 @@
 //logger singleton.
-const winston = require('winston');
-const { createLogger, transports, format } = require('winston'),
-    pathUtil  = require('path'),
+let pathUtil  = require('path')
     fs        = require('fs'),
-    _         = require('underscore'),
-    conf      = require(pathUtil.join(__dirname, './conf.json'));
+    _         = require('underscore');
 
-const { combine, timestamp, label, prettyPrint } = format;
+const conf = require(pathUtil.join(__dirname, './conf/conf.json'));
+const winston = require('winston');
 
 //
 // Logging levels
@@ -38,13 +36,13 @@ const log = module.exports = winston.createLogger({
         winston.format.colorize(),
         winston.format.simple(),
         winston.format.label({label:'['+process.title+']'}),
-        winston.format.timestamp({format:"YY-MM-DD HH:MM:SS"}),
+        winston.format.timestamp({format:'YY-MM-DD HH:MM:SS'}),
         winston.format.printf(
             info => `${info.timestamp}  ${info.level} : ${info.message}`
         )
     ),
     transports: [
-        new winston.transports.Console()
+        new winston.transports.Console({handleExceptions: true})
     ],
     level: 'info'
 });
@@ -53,10 +51,10 @@ var self = module.exports = {
 
     /*
       Init should pass in an object that looks like the following:
-    "logger" : {
-      "enabled" : false | true,
-      "dir"     : "",
-      "debug"   : false | true
+    'logger' : {
+      'enabled' : false | true,
+      'dir'     : '',
+      'debug'   : false | true
     }
     */
     init: function init(){
@@ -64,39 +62,39 @@ var self = module.exports = {
             if(!_.isEmpty(conf.logger.dir)){
                 //create the log dir if it does not already exist.
                 try {
-                    log.info("Creating log directory:"+conf.logger.dir);
+                    log.info('Creating log directory:'+conf.logger.dir);
                     fs.mkdirSync(conf.logger.dir);
                 }
                 catch(e) {
                     if ( e.code !== 'EEXIST' ){
-                        log.error("Log directory already exists. "+conf.logger.dir);
+                        log.error('Log directory already exists. '+conf.logger.dir);
                         throw e;
                     }
                 }
 
                 const debugFileLog =
                     new winston.transports.File({ level: 'debug',
-                                                          filename: pathUtil.join(conf.logger.dir,conf.hostname+"_"+"debug.log"),
+                                                          filename: pathUtil.join(conf.logger.dir,conf.hostname+'_'+'debug.log'),
                                                           maxFiles: 256,
                                                           maxsize:4194304,
                                                           handleExceptions: true});
                 const infoFileLog =
                     new winston.transports.File({ level: 'info',
-                        filename: pathUtil.join(conf.logger.dir,conf.hostname+"_"+"info.log"),
+                        filename: pathUtil.join(conf.logger.dir,conf.hostname+'_'+'info.log'),
                         maxFiles: 256,
                         maxsize:4194304,
                         handleExceptions: true});
 
                 const warnFileLog =
                     new winston.transports.File({ level: 'warn',
-                        filename: pathUtil.join(conf.logger.dir,conf.hostname+"_"+"warn.log"),
+                        filename: pathUtil.join(conf.logger.dir,conf.hostname+'_'+'warn.log'),
                         maxFiles: 256,
                         maxsize:4194304,
                         handleExceptions: true});
 
                 const errorFileLog =
                     new winston.transports.File({ level: 'error',
-                        filename: pathUtil.join(conf.logger.dir,conf.hostname+"_"+"error.log"),
+                        filename: pathUtil.join(conf.logger.dir,conf.hostname+'_'+'error.log'),
                         maxFiles: 256,
                         maxsize:4194304,
                         handleExceptions: true});
@@ -110,7 +108,7 @@ var self = module.exports = {
                 log.add(warnFileLog);
                 log.add(errorFileLog);
 
-                log.info("Log files will be located in:"+conf.logger.dir);
+                log.info('Log files will be located in:'+conf.logger.dir);
             }
         }
     },
