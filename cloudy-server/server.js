@@ -5,7 +5,7 @@ let pathUtil = require('path'),
     fs = require('fs'),
     methodOverride = require('method-override'),
     https = require('https'),
-    swaggerController = require(pathUtil.join(__dirname,'./controllers/swagger.controller'));
+    SwaggerController = require(pathUtil.join(__dirname,'./controllers/swagger.controller'));
 
 const conf = require(pathUtil.join(__dirname,'./conf/conf.json'));
 const express = require('express');
@@ -14,7 +14,7 @@ const swaggerUi = require('swagger-ui-express');
 class Server{
 
     constructor(swagger,x){
-        this.swagger = new swaggerController();
+        this.swagger = new SwaggerController();
         this.x = express();
 
         log.info('Setting default and config values for express app.');

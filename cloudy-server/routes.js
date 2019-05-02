@@ -3,23 +3,23 @@
 const pathUtil = require('path');
 const log      = require(pathUtil.join(__dirname, './logger'));
 const cors     = require('cors');
-const serverController = require(pathUtil.join(__dirname, './controllers/server.request.controller'));
-const fileController = require(pathUtil.join(__dirname, './controllers/file.request.controller'));
+const ServerController = require(pathUtil.join(__dirname, './controllers/server.request.controller'));
+const FileController = require(pathUtil.join(__dirname, './controllers/file.request.controller'));
 
 module.exports = function(app) {
     //order important here.
 
     //EVERYTHING WILL BE AUDITED AND REROUTED TO SECURE SITE.
     app.use(cors(),
-        serverController.auditRequest,
-        serverController.reRouteHttps
+        ServerController.auditRequest,
+        ServerController.reRouteHttps
     );
 
     app.get('/',function(req,res){
         res.sendStatus(404);
     });
 
-    app.post('/postFile',fileController.postFileRequest);
+    app.post('/postFile',FileController.postFileRequest);
 
     //everything else is a 404, not found.
     app.get('*',function(req,res){

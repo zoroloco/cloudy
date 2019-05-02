@@ -25,6 +25,18 @@ class FileController{
             }
         });
     }
+
+    /**
+     * Saves a file to the filesystem.
+     *
+     * @returns {Promise<any>}
+     */
+    static processFile(){
+        return new Promise((resolve,reject)=>{
+            //TODO:implement
+            resolve();
+        });
+    }
 }
 
 module.exports = FileController;
