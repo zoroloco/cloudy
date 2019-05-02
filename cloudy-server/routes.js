@@ -1,8 +1,8 @@
 //This script defines the routes taken by the server.
 
 const pathUtil = require('path');
-const log      = require(pathUtil.join(__dirname, './logger'));
-const cors     = require('cors');
+const Logger = require(pathUtil.join(__dirname, './logger'));
+const cors = require('cors');
 const ServerController = require(pathUtil.join(__dirname, './controllers/server.request.controller'));
 const FileController = require(pathUtil.join(__dirname, './controllers/file.request.controller'));
 
@@ -29,7 +29,7 @@ module.exports = function(app) {
     //error middleware triggered by next('some error');
     //error handling middleware is always declared last.
     app.use(function(err,req,res,next){
-        log.error('Error middleware caught with error:'+err);
+        Logger.error('Error middleware caught with error:'+err);
         res.sendStatus(err);
     });
 };

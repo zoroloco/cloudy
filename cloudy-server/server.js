@@ -1,6 +1,6 @@
 let pathUtil = require('path'),
     _ = require('underscore'),
-    log = require(pathUtil.join(__dirname,'./logger.js')),
+    Logger = require(pathUtil.join(__dirname,'./logger')),
     bodyParser = require('body-parser'),
     fs = require('fs'),
     methodOverride = require('method-override'),
@@ -17,7 +17,7 @@ class Server{
         this.swagger = new SwaggerController();
         this.x = express();
 
-        log.info('Setting default and config values for express app.');
+        Logger.info('Setting default and config values for express app.');
 
         this.x.set('sslPort', process.env.PORT || conf.sslPort);
         this.x.set('title', conf.title);
@@ -39,16 +39,16 @@ class Server{
         this.x.use(methodOverride('X-HTTP-Method-Override'));
         this.x.use(this.swagger.getUrl(), swaggerUi.serve, swaggerUi.setup(this.swagger.getDoc()));
 
-        log.info('Defining routing file.');
+        Logger.info('Defining routing file.');
         require('./routes.js')(this.x);
 
         this.x.use(this.swagger.getUrl(), swaggerUi.serve, swaggerUi.setup(this.swagger.getDoc()));
-        log.info('Swagger enabled. Available at:'+this.swagger.getUrl());
+        Logger.info('Swagger enabled. Available at:'+this.swagger.getUrl());
     }
 
     listen(){
         this.httpsServer = https.createServer(this.x.get('httpsOptions'),this.x).listen(this.x.get('sslPort'),function(){
-            log.info(process.title+' server now listening on SSL port:'+conf.sslPort);
+            Logger.info(process.title+' server now listening on SSL port:'+conf.sslPort);
         });
     }
 

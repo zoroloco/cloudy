@@ -1,5 +1,4 @@
-let pathUtil = require('path'),
-    log = require(pathUtil.join(__dirname,'../logger.js'));
+let pathUtil = require('path');
 
 const conf = require(pathUtil.join(__dirname,'../conf/conf.json'));
 const swaggerDoc = require(pathUtil.join(__dirname,'../conf/swagger.json'));

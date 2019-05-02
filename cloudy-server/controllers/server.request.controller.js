@@ -1,9 +1,9 @@
-let pathUtil       = require('path'),
-    log            = require(pathUtil.join(__dirname,'../logger.js'));
+let pathUtil = require('path'),
+    Logger = require(pathUtil.join(__dirname,'../logger'));
 
 class ServerRequestController{
     static auditRequest(req,res,next){
-        log.info(req.method+' request to:'+req.originalUrl+' made by IP Address: '+req.ip);
+        Logger.info(req.method+' request to:'+req.originalUrl+' made by IP Address: '+req.ip);
         next();
     };
 
@@ -12,7 +12,7 @@ class ServerRequestController{
             next();
         }
         else{
-            log.warn('Request not secure. Redirecting to secure site:'+req.hostname+req.url);
+            Logger.warn('Request not secure. Redirecting to secure site:'+req.hostname+req.url);
             res.redirect('https://'+req.hostname+req.url);
         }
     };

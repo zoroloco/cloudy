@@ -30,7 +30,7 @@ const config = {
 
 winston.addColors(config.colors);
 
-const log = module.exports = winston.createLogger({
+const log = winston.createLogger({
     levels: config.levels,
     format: winston.format.combine(
         winston.format.colorize(),
@@ -47,17 +47,9 @@ const log = module.exports = winston.createLogger({
     level: 'info'
 });
 
-var self = module.exports = {
+class Logger{
 
-    /*
-      Init should pass in an object that looks like the following:
-    'logger' : {
-      'enabled' : false | true,
-      'dir'     : '',
-      'debug'   : false | true
-    }
-    */
-    init: function init(){
+    static init(){
         if(conf.logger.enabled){
             if(!_.isEmpty(conf.logger.dir)){
                 //create the log dir if it does not already exist.
@@ -73,10 +65,10 @@ var self = module.exports = {
 
                 const debugFileLog =
                     new winston.transports.File({ level: 'debug',
-                                                          filename: pathUtil.join(conf.logger.dir,conf.hostname+'_'+'debug.log'),
-                                                          maxFiles: 256,
-                                                          maxsize:4194304,
-                                                          handleExceptions: true});
+                        filename: pathUtil.join(conf.logger.dir,conf.hostname+'_'+'debug.log'),
+                        maxFiles: 256,
+                        maxsize:4194304,
+                        handleExceptions: true});
                 const infoFileLog =
                     new winston.transports.File({ level: 'info',
                         filename: pathUtil.join(conf.logger.dir,conf.hostname+'_'+'info.log'),
@@ -110,26 +102,28 @@ var self = module.exports = {
                 log.info('Log files will be located in:'+conf.logger.dir);
             }
         }
-    },
+    }
 
-    debug: function debug(msg){
+    static debug(msg){
         if(conf.logger.debug && conf.logger.enabled)
             log.debug(msg);
-    },
+    }
 
-    info: function info(msg){
+    static info(msg){
         if(conf.logger.enabled)
             log.info(msg);
-    },
+    }
 
-    warn: function warn(msg){
+    static warn(msg){
         if(conf.logger.enabled)
             log.warn(msg);
-    },
+    }
 
-    error: function error(msg){
+    static error(msg){
         if(conf.logger.enabled)
             log.error(msg);
     }
+}
 
-};
+module.exports = Logger;
+
